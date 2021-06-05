@@ -1,12 +1,12 @@
 <template>
   <v-app>
-    <v-app-bar app prominent class="bg-gradient">
+    <v-app-bar app prominent flat class="bg-gradient">
       <div class="d-flex align-self-center">
         <v-img
           alt="SFI App Logo"
           class="mr-2"
           contain
-          src="./assets/sfi_logo.png"
+          src="./assets/logo.png"
           transition="scale-transition"
         />
       </div>
@@ -14,13 +14,19 @@
       <v-spacer></v-spacer>
 
       <v-avatar size="70" class="align-self-center">
-        <v-img alt="Vuetify Name" src="./assets/avatar.png" contain />
+        <v-img alt="Admin avatar" src="./assets/avatar.png" contain />
       </v-avatar>
     </v-app-bar>
 
     <v-main>
       <HelloWorld />
     </v-main>
+
+    <v-footer padless dark>
+      <v-container fluid>
+        <p class="text-center my-3">Mapa de la Acción Estatal - Challenge</p>
+      </v-container>
+    </v-footer>
   </v-app>
 </template>
 
