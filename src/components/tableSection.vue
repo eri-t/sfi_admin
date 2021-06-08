@@ -11,7 +11,7 @@
       <template v-slot:top>
         <v-dialog v-model="dialog" max-width="500px">
           <v-card>
-            <v-card-title>
+            <v-card-title color="blue">
               <span class="text-h5">Editar usuario</span>
             </v-card-title>
 
@@ -130,16 +130,13 @@
       </template>
 
       <template v-slot:[`item.actions`]="{ item }">
-        <v-icon @click="deleteItem(item.id)"> fas fa-trash </v-icon>
+        <v-icon @click="deleteItem(item.id)" class="pa-2">
+          fas fa-trash
+        </v-icon>
 
-        <v-icon class="mr-2" @click="editItem(item)"> fas fa-edit </v-icon>
-        <!--
-        <router-link :to="'/user/' + item.id">
-        -->
-        <v-icon @click="showItem(item.id)"> fas fa-play </v-icon>
-        <!--
-        </router-link>
-        -->
+        <v-icon @click="editItem(item)" class="pa-2"> fas fa-edit </v-icon>
+
+        <v-icon @click="showItem(item.id)" class="pa-2"> fas fa-play </v-icon>
       </template>
     </v-data-table>
   </v-container>

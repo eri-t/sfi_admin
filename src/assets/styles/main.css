@@ -7,6 +7,12 @@ a {
     text-decoration: none;
 }
 
+/*
+body .v-app-bar.v-app-bar--fixed {
+    position: static;
+}
+*/
+
 .bg-gradient {
     background: rgb(127, 108, 176);
     background: -moz-linear-gradient(90deg, rgba(127, 108, 176, 1) 0%, rgba(78, 190, 238, 1) 100%);

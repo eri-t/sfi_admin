@@ -20,9 +20,6 @@
 
     <v-main>
       <v-fade-transition mode="out-in">
-        <!--
-        <router-view :allUsers="allUsers" :allPosts="allPosts"></router-view>
-        -->
         <div>
           <table-section
             v-if="!id"
@@ -55,7 +52,6 @@ export default {
   name: "App",
 
   data: () => ({
-
     allUsers: null,
     allPosts: null,
     id: '',

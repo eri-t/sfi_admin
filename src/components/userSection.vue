@@ -3,9 +3,6 @@
     <v-row>
       <v-col cols="12" sm="6">
         <v-fade-transition mode="out-in">
-          <!--
-      <v-btn @click="$router.go(-1)"> Volver </v-btn>
-      -->
           <v-btn @click="goBack"> Volver </v-btn>
         </v-fade-transition>
 
@@ -15,7 +12,9 @@
         <v-btn @click="enable" class="white--text" color="green lighten-1"
           >Habilitar</v-btn
         >
-        <v-btn class="white--text" color="grey darken-1">Deshabilitar</v-btn>
+        <v-btn @click="disable" class="white--text" color="grey darken-1"
+          >Deshabilitar</v-btn
+        >
       </v-col>
     </v-row>
 
@@ -59,8 +58,8 @@ export default {
   }),
 
   mounted: function () {
-    this.getName();
-    this.getUserPosts();
+    this.fillName();
+    this.populateUserPosts();
   },
 
   methods: {
@@ -75,6 +74,22 @@ export default {
           let index = this.userPosts.findIndex(obj => obj.id == this.selected[i]);
           this.userPosts[index].published = true;
           this.$set(this.userPosts, index, this.userPosts[index]);
+          this.selected = [];
+        }
+      }
+    },
+
+    disable: function () {
+      for (let i = 0; i < this.selected.length; i++) {
+
+        let selectedPost = this.userPosts.find(obj => {
+          return obj.id == this.selected[i]
+        });
+        if (selectedPost.published) {
+          let index = this.userPosts.findIndex(obj => obj.id == this.selected[i]);
+          this.userPosts[index].published = false;
+          this.$set(this.userPosts, index, this.userPosts[index]);
+          this.selected = [];
         }
       }
     },
@@ -82,45 +97,21 @@ export default {
     goBack: function () {
       this.$emit('showItem', null);
     },
-    /*
-    getData: function () {
-      this.id = this.$route.params.userId;
-      console.log('this.allUsers: ' + this.allUsers);
-      console.log('this.id: ' + this.id);
-      console.log('this.allPosts: ' + this.allPosts);
-      for (const user of this.allUsers) {
-        if (this.id == user.id) {
-          this.name = user.name;
-        }
-      }
-      this.userPosts = this.allPosts.filter((post) => post.userId == this.id);
-    },
-    */
 
-    getName: function () {
+    fillName: function () {
       for (const user of this.allUsers) {
         if (this.userId == user.id) {
           this.name = user.name;
         }
       }
-      /*
-      this.id = this.$route.params.userId;
-      if (this.allUsers) {
-        for (const user of this.allUsers) {
-          if (this.id == user.id) {
-            this.name = user.name;
-          }
-        }
-      }
-*/
     },
 
-    getUserPosts: function () {
+    populateUserPosts: function () {
       if (this.allPosts) {
         this.userPosts = this.allPosts.filter((post) => post.userId == this.userId);
         // console.log('this.userPosts: ' + this.userPosts);
 
-        // assign published state 
+        // assign published state to some posts:
         for (let i = 0; i < this.userPosts.length; i++) {
           if (i % 2 == 0) {
             this.userPosts[i].published = true;
@@ -129,6 +120,5 @@ export default {
       }
     }
   },
-
 };
 </script>
