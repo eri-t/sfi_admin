@@ -20,7 +20,23 @@
 
     <v-main>
       <v-fade-transition mode="out-in">
-        <router-view></router-view>
+        <!--
+        <router-view :allUsers="allUsers" :allPosts="allPosts"></router-view>
+        -->
+        <div>
+          <table-section
+            v-if="!id"
+            :allUsers="allUsers"
+            @showItem="id = $event"
+          />
+          <user-section
+            v-else
+            :allUsers="allUsers"
+            :userId="id"
+            :allPosts="allPosts"
+            @showItem="id = $event"
+          />
+        </div>
       </v-fade-transition>
     </v-main>
 
@@ -33,8 +49,46 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "App",
+
+  data: () => ({
+
+    allUsers: null,
+    allPosts: null,
+    id: '',
+  }),
+
+  mounted () {
+    axios.get("https://jsonplaceholder.typicode.com/users").then((result) => {
+
+      // handle success - users
+      this.allUsers = result.data;
+      axios.get("https://jsonplaceholder.typicode.com/posts").then((result) => {
+
+        // handle success - posts
+        this.allPosts = result.data;
+
+      }).catch(function (error) {
+        // handle error - posts
+        console.log(error);
+      })
+        .then(function () {
+          // always executed - posts
+
+        });
+    })
+      .catch(function (error) {
+        // handle error - users
+        console.log(error);
+      })
+      .then(function () {
+        // always executed - users
+
+      });
+  },
 
 };
 </script>

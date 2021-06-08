@@ -3,17 +3,18 @@ import App from "./App.vue";
 import vuetify from "./plugins/vuetify";
 import tableSection from "./components/tableSection";
 import userSection from "./components/userSection";
-import VueRouter from 'vue-router';
+// import VueRouter from 'vue-router';
 
-Vue.use(VueRouter);
-
+// Vue.use(VueRouter);
+/*
 const listView = {
-  template: `<table-section/>`
+  template: `<table-section :allUsers="allUsers"/>`,
+  props: ['allUsers'],
 }
 
 const userView = {
-  template: `<user-section :userId="userId"></user-section>`,
-  props: ['userId'],
+  template: `<user-section :allUsers="allUsers" :userId="userId" :allPosts="allPosts"/>`,
+  props: ['allUsers', 'userId', 'allPosts'],
 }
 
 const routes = [{
@@ -43,7 +44,7 @@ const router = new VueRouter({
     };
   }
 })
-
+*/
 Vue.component('table-section', tableSection);
 Vue.component('user-section', userSection);
 
@@ -51,6 +52,6 @@ Vue.config.productionTip = false;
 
 new Vue({
   vuetify,
-  router,
+  //  router,
   render: (h) => h(App),
 }).$mount("#app");

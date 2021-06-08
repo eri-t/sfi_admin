@@ -2,133 +2,127 @@
   <v-container fluid class="pa-7 pa-lg-10">
     <h1 class="pb-5">Usuarios</h1>
     <v-data-table
-      v-if="usersList"
+      v-if="allUsers"
       :headers="headers"
-      :items="usersList"
+      :items="allUsers"
       :hide-default-footer="true"
       class="elevation-2"
     >
       <template v-slot:top>
-        <v-toolbar flat>
-          <v-dialog v-model="dialog" max-width="500px">
-            <v-card>
-              <v-card-title>
-                <span class="text-h5">Editar usuario</span>
-              </v-card-title>
+        <v-dialog v-model="dialog" max-width="500px">
+          <v-card>
+            <v-card-title>
+              <span class="text-h5">Editar usuario</span>
+            </v-card-title>
 
-              <v-card-text>
-                <v-container>
-                  <v-row>
-                    <v-col cols="12" sm="6">
-                      <v-text-field
-                        v-model="editedItem.username"
-                        label="Usuario"
-                        readonly
-                      ></v-text-field>
-                    </v-col>
-                  </v-row>
-                  <v-row>
-                    <v-col cols="12" sm="6">
-                      <v-text-field
-                        v-model="editedItem.email"
-                        label="Email"
-                      ></v-text-field>
-                    </v-col>
-                    <v-col cols="12" sm="6">
-                      <v-text-field
-                        v-model="editedItem.phone"
-                        label="Teléfono"
-                      ></v-text-field>
-                    </v-col>
-                    <v-col cols="12" sm="6">
-                      <v-text-field
-                        v-model="editedItem.address.street"
-                        label="Calle"
-                      ></v-text-field>
-                    </v-col>
-                    <v-col cols="12" sm="6">
-                      <v-text-field
-                        v-model="editedItem.address.suite"
-                        label="Departamento"
-                      ></v-text-field>
-                    </v-col>
-                    <v-col cols="12" sm="6">
-                      <v-text-field
-                        v-model="editedItem.address.city"
-                        label="Ciudad"
-                      ></v-text-field>
-                    </v-col>
-                    <v-col cols="12" sm="6">
-                      <v-text-field
-                        v-model="editedItem.address.zipcode"
-                        label="Código postal"
-                      ></v-text-field>
-                    </v-col>
-                  </v-row>
-                  <v-row>
-                    <v-col cols="12" sm="6">
-                      <v-text-field
-                        v-model="editedItem.website"
-                        label="Website"
-                        readonly
-                      ></v-text-field>
-                    </v-col>
-                  </v-row>
-                  <v-row>
-                    <v-col cols="12">
-                      <v-text-field
-                        v-model="editedItem.company.name"
-                        label="Nombre empresa"
-                        readonly
-                      ></v-text-field>
-                    </v-col>
-                  </v-row>
-                  <v-row>
-                    <v-col cols="12">
-                      <v-textarea
-                        label="Descripción"
-                        no-resize
-                        readonly
-                      ></v-textarea>
-                    </v-col>
-                  </v-row>
-                </v-container>
-              </v-card-text>
+            <v-card-text>
+              <v-container>
+                <v-row>
+                  <v-col cols="12" sm="6">
+                    <v-text-field
+                      v-model="editedItem.username"
+                      label="Usuario"
+                      readonly
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col cols="12" sm="6">
+                    <v-text-field
+                      v-model="editedItem.email"
+                      label="Email"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6">
+                    <v-text-field
+                      v-model="editedItem.phone"
+                      label="Teléfono"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6">
+                    <v-text-field
+                      v-model="editedItem.address.street"
+                      label="Calle"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6">
+                    <v-text-field
+                      v-model="editedItem.address.suite"
+                      label="Departamento"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6">
+                    <v-text-field
+                      v-model="editedItem.address.city"
+                      label="Ciudad"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" sm="6">
+                    <v-text-field
+                      v-model="editedItem.address.zipcode"
+                      label="Código postal"
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col cols="12" sm="6">
+                    <v-text-field
+                      v-model="editedItem.website"
+                      label="Website"
+                      readonly
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col cols="12">
+                    <v-text-field
+                      v-model="editedItem.company.name"
+                      label="Nombre empresa"
+                      readonly
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col cols="12">
+                    <v-textarea
+                      label="Descripción"
+                      no-resize
+                      readonly
+                    ></v-textarea>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-card-text>
 
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" text @click="close">
-                  Cerrar
-                </v-btn>
-                <v-btn color="blue darken-1" text @click="save">
-                  Guardar
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="blue darken-1" text @click="close"> Cerrar </v-btn>
+              <v-btn color="blue darken-1" text @click="save"> Guardar </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
 
-          <v-dialog v-model="dialogDelete" max-width="500px">
-            <v-card>
-              <v-card-title class="text-h6 justify-center"
-                >¿Está seguro de eliminar este usuario?</v-card-title
+        <v-dialog v-model="dialogDelete" max-width="500px">
+          <v-card>
+            <v-card-title class="text-h6 justify-center"
+              >¿Está seguro de eliminar este usuario?</v-card-title
+            >
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="blue darken-1" text @click="closeDelete"
+                >Cancelar</v-btn
               >
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" text @click="closeDelete"
-                  >Cancelar</v-btn
-                >
-                <v-btn color="blue darken-1" text @click="deleteItemConfirm"
-                  >Eliminar</v-btn
-                >
-                <v-spacer></v-spacer>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-        </v-toolbar>
+              <v-btn color="blue darken-1" text @click="deleteItemConfirm"
+                >Eliminar</v-btn
+              >
+              <v-spacer></v-spacer>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
       </template>
 
-      <template v-slot="usersList">
-        <tr v-for="item in usersList" :key="item.id">
+      <template v-slot="allUsers">
+        <tr v-for="item in allUsers" :key="item.id">
           <td v-for="header in headers" :key="header.value">
             {{ item[header.value] }}
           </td>
@@ -139,12 +133,13 @@
         <v-icon @click="deleteItem(item.id)"> fas fa-trash </v-icon>
 
         <v-icon class="mr-2" @click="editItem(item)"> fas fa-edit </v-icon>
-
-        <v-fade-transition mode="out-in">
-          <router-link :to="'/user/' + item.id">
-            <v-icon> fas fa-play </v-icon>
-          </router-link>
-        </v-fade-transition>
+        <!--
+        <router-link :to="'/user/' + item.id">
+        -->
+        <v-icon @click="showItem(item.id)"> fas fa-play </v-icon>
+        <!--
+        </router-link>
+        -->
       </template>
     </v-data-table>
   </v-container>
@@ -155,6 +150,7 @@ import axios from "axios";
 
 export default {
   name: "tableSection",
+  props: ['allUsers'],
 
   data: () => ({
     dialog: false,
@@ -167,9 +163,8 @@ export default {
       { text: 'Website', value: 'website' },
       { text: 'Nombre empresa', value: 'company.name' },
       { text: 'Opciones', value: 'actions', sortable: false },
-
     ],
-    usersList: null,
+
     idDelete: null,
     editedItem: {
       id: '',
@@ -187,13 +182,10 @@ export default {
     },
   },
 
-  created () {
-    axios.get("https://jsonplaceholder.typicode.com/users").then((result) => {
-      this.usersList = result.data;
-    })
-  },
-
   methods: {
+    showItem: function (id) {
+      this.$emit('showItem', id);
+    },
 
     editItem (item) {
       this.editedItem = Object.assign({}, item)

@@ -1,7 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap');
+body .v-application {
+    font-family: 'Poppins', sans-serif;
+}
+
+a {
+    text-decoration: none;
+}
+
 .bg-gradient {
     background: rgb(127, 108, 176);
     background: -moz-linear-gradient(90deg, rgba(127, 108, 176, 1) 0%, rgba(78, 190, 238, 1) 100%);
     background: -webkit-linear-gradient(90deg, rgba(127, 108, 176, 1) 0%, rgba(78, 190, 238, 1) 100%);
     background: linear-gradient(90deg, rgba(127, 108, 176, 1) 0%, rgba(78, 190, 238, 1) 100%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#7f6cb0", endColorstr="#4ebeee", GradientType=1);
+}
+
+.v-application .userPostsList {
+    padding-left: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.userPostsList li {
+    display: inline-block;
 }
