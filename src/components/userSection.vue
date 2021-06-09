@@ -1,26 +1,41 @@
 <template>
   <v-container fluid>
     <v-row>
-      <v-col cols="12" sm="6">
+      <v-col cols="12" md="8" class="d-flex align-center">
         <v-fade-transition mode="out-in">
-          <v-btn @click="goBack"> Volver </v-btn>
+          <v-btn @click="goBack" plain>
+            <v-icon class="pa-2"> fas fa-chevron-left </v-icon>
+            Volver
+          </v-btn>
         </v-fade-transition>
 
-        <h1>{{ this.name }}</h1>
+        <h1 class="d-inline-block ms-2">{{ this.name }}</h1>
       </v-col>
-      <v-col cols="12" sm="6">
-        <v-btn @click="enable" class="white--text" color="green lighten-1"
+      <v-col cols="12" md="4" class="d-flex align-center justify-end">
+        <v-btn
+          @click="enable"
+          class="white--text"
+          color="green lighten-1"
+          rounded
           >Habilitar</v-btn
         >
-        <v-btn @click="disable" class="white--text" color="grey darken-1"
+        <v-btn
+          @click="disable"
+          class="white--text ms-2"
+          color="grey darken-1"
+          rounded
           >Deshabilitar</v-btn
         >
       </v-col>
     </v-row>
 
-    <ul class="row userPostsList">
-      <li v-for="post in userPosts" :key="post.id" class="col-auto">
-        <v-card class="mx-auto" max-width="250" height="100%">
+    <ul class="row my-3 ps-0">
+      <li
+        v-for="post in userPosts"
+        :key="post.id"
+        class="col-sm-6 col-md-4 col-lg-3 col-xl-2"
+      >
+        <v-card class="mx-auto" height="100%">
           <v-card-actions>
             <v-chip
               class="white--text"
@@ -35,6 +50,7 @@
               v-model="selected"
               :value="post.id"
               hide-details
+              class="mt-0"
             ></v-checkbox>
           </v-card-actions>
           <v-card-title> {{ post.title }} </v-card-title>
@@ -109,7 +125,6 @@ export default {
     populateUserPosts: function () {
       if (this.allPosts) {
         this.userPosts = this.allPosts.filter((post) => post.userId == this.userId);
-        // console.log('this.userPosts: ' + this.userPosts);
 
         // assign published state to some posts:
         for (let i = 0; i < this.userPosts.length; i++) {

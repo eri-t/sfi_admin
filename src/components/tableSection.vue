@@ -1,6 +1,9 @@
 <template>
   <v-container fluid class="pa-7 pa-lg-10">
     <h1 class="pb-5">Usuarios</h1>
+    <v-alert v-if="alert.show" :type="alert.type" dismissible>
+      {{ alert.text }}
+    </v-alert>
     <v-data-table
       v-if="allUsers"
       :headers="headers"
@@ -9,10 +12,10 @@
       class="elevation-2"
     >
       <template v-slot:top>
-        <v-dialog v-model="dialog" max-width="500px">
+        <v-dialog v-model="dialog" max-width="600px">
           <v-card>
-            <v-card-title color="blue">
-              <span class="text-h5">Editar usuario</span>
+            <v-card-title class="primary">
+              <span class="text-h5 white--text">Editar usuario</span>
             </v-card-title>
 
             <v-card-text>
@@ -22,7 +25,7 @@
                     <v-text-field
                       v-model="editedItem.username"
                       label="Usuario"
-                      readonly
+                      disabled
                     ></v-text-field>
                   </v-col>
                 </v-row>
@@ -31,36 +34,42 @@
                     <v-text-field
                       v-model="editedItem.email"
                       label="Email"
+                      dense
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6">
                     <v-text-field
                       v-model="editedItem.phone"
                       label="Teléfono"
+                      dense
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6">
                     <v-text-field
                       v-model="editedItem.address.street"
                       label="Calle"
+                      dense
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6">
                     <v-text-field
                       v-model="editedItem.address.suite"
                       label="Departamento"
+                      dense
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6">
                     <v-text-field
                       v-model="editedItem.address.city"
                       label="Ciudad"
+                      dense
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6">
                     <v-text-field
                       v-model="editedItem.address.zipcode"
                       label="Código postal"
+                      dense
                     ></v-text-field>
                   </v-col>
                 </v-row>
@@ -69,7 +78,8 @@
                     <v-text-field
                       v-model="editedItem.website"
                       label="Website"
-                      readonly
+                      disabled
+                      dense
                     ></v-text-field>
                   </v-col>
                 </v-row>
@@ -78,7 +88,8 @@
                     <v-text-field
                       v-model="editedItem.company.name"
                       label="Nombre empresa"
-                      readonly
+                      disabled
+                      dense
                     ></v-text-field>
                   </v-col>
                 </v-row>
@@ -86,8 +97,9 @@
                   <v-col cols="12">
                     <v-textarea
                       label="Descripción"
+                      rows="3"
                       no-resize
-                      readonly
+                      disabled
                     ></v-textarea>
                   </v-col>
                 </v-row>
@@ -96,8 +108,10 @@
 
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="close"> Cerrar </v-btn>
-              <v-btn color="blue darken-1" text @click="save"> Guardar </v-btn>
+              <v-btn color="gray darken-1" text @click="close"> Cerrar </v-btn>
+              <v-btn color="green lighten-1" text @click="save">
+                Guardar
+              </v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -165,12 +179,15 @@ export default {
     idDelete: null,
     editedItem: {
       id: '',
+      name: '',
       username: '',
       email: '',
       phone: '',
+      website: '',
       address: {},
       company: {},
     },
+    alert: { type: '', text: '', show: false, },
   }),
 
   watch: {
@@ -180,53 +197,68 @@ export default {
   },
 
   methods: {
+    clearEditedItem: function () {
+
+      this.editedItem.id = '';
+      this.editedItem.name = '';
+      this.editedItem.username = '';
+      this.editedItem.email = '';
+      this.editedItem.phone = '';
+      this.editedItem.website = '';
+      this.editedItem.address = {};
+      this.editedItem.company = {};
+    },
+
+    showAlert: function (type, action) {
+      this.alert.type = type;
+      if (type == "success") {
+        this.alert.text = "El registro se ha " + action + " exitosamente.";
+      } else {
+        this.alert.text = "El registro no pudo ser " + action + ". Por favor, reintente más tarde.";
+      }
+      this.alert.show = true;
+    },
+
     showItem: function (id) {
       this.$emit('showItem', id);
     },
 
     editItem (item) {
       this.editedItem = Object.assign({}, item)
-      this.dialog = true
+      this.dialog = true;
+      this.alert.show = false;
     },
 
     deleteItem (id) {
       this.idDelete = id;
-      console.log('idDelete: ' + this.idDelete);
+      //  console.log('idDelete: ' + this.idDelete);
       this.dialogDelete = true;
+      this.alert.show = false;
     },
 
     deleteItemConfirm () {
       axios.delete("https://jsonplaceholder.typicode.com/users/" + this.idDelete)
 
-        .then(function (response) {
+        .then((response) => {
           // handle success
           console.log(response);
-
+          this.showAlert('success', 'eliminado');
         })
-        .catch(function (error) {
+        .catch((error) => {
           // handle error
           console.log(error);
+          this.showAlert('error', 'eliminado');
         })
-        .then(function () {
+        .then(() => {
           // always executed
-
+          this.idDelete = null;
+          this.closeDelete();
         });
-
-      this.idDelete = null;
-      console.log('idDelete: ' + this.idDelete);
-      this.closeDelete()
     },
 
     close () {
-      this.dialog = false
-      /*
-      this.editedItem.id = '';
-      this.editedItem.username = '';
-      this.editedItem.email = '';
-      this.editedItem.phone = '';
-      this.editedItem.address = {};
-      this.editedItem.company = {};
-      */
+      this.dialog = false;
+      this.clearEditedItem();
     },
 
     closeDelete () {
@@ -245,30 +277,22 @@ export default {
           zipcode: this.editedItem.address.zipcode,
         }
       })
-
-        .then(function (response) {
+        .then((response) => {
           // handle success
           console.log(response);
-
+          this.showAlert('success', 'editado');
         })
-        .catch(function (error) {
+        .catch((error) => {
           // handle error
           console.log(error);
+          this.showAlert('error', 'editado');
         })
-        .then(function () {
+        .then(() => {
           // always executed
-
+          this.close();
         });
-      this.editedItem.id = '';
-      this.editedItem.username = '';
-      this.editedItem.email = '';
-      this.editedItem.phone = '';
-      this.editedItem.address = {};
-      this.editedItem.company = {};
-
-      this.close()
-
     },
   }
 };
+
 </script>
