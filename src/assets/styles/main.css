@@ -14,3 +14,11 @@ a {
     background: linear-gradient(90deg, rgba(127, 108, 176, 1) 0%, rgba(78, 190, 238, 1) 100%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#7f6cb0", endColorstr="#4ebeee", GradientType=1);
 }
+
+h1 {
+    font-weight: 500;
+}
+
+td, th span {
+    font-size: 1rem !important;
+}

@@ -25,7 +25,7 @@
                     <v-text-field
                       v-model="editedItem.username"
                       label="Usuario"
-                      disabled
+                      readonly
                     ></v-text-field>
                   </v-col>
                 </v-row>
@@ -78,7 +78,7 @@
                     <v-text-field
                       v-model="editedItem.website"
                       label="Website"
-                      disabled
+                      readonly
                       dense
                     ></v-text-field>
                   </v-col>
@@ -88,7 +88,7 @@
                     <v-text-field
                       v-model="editedItem.company.name"
                       label="Nombre empresa"
-                      disabled
+                      readonly
                       dense
                     ></v-text-field>
                   </v-col>
@@ -99,7 +99,7 @@
                       label="Descripción"
                       rows="3"
                       no-resize
-                      disabled
+                      readonly
                     ></v-textarea>
                   </v-col>
                 </v-row>
@@ -123,10 +123,8 @@
             >
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="closeDelete"
-                >Cancelar</v-btn
-              >
-              <v-btn color="blue darken-1" text @click="deleteItemConfirm"
+              <v-btn color="red" text @click="closeDelete">Cancelar</v-btn>
+              <v-btn color="secondary" text @click="deleteItemConfirm"
                 >Eliminar</v-btn
               >
               <v-spacer></v-spacer>
@@ -144,13 +142,29 @@
       </template>
 
       <template v-slot:[`item.actions`]="{ item }">
-        <v-icon @click="deleteItem(item.id)" class="pa-2">
+        <v-icon
+          @click="deleteItem(item.id)"
+          class="pa-2"
+          aria-label="Eliminar usuario"
+        >
           fas fa-trash
         </v-icon>
 
-        <v-icon @click="editItem(item)" class="pa-2"> fas fa-edit </v-icon>
+        <v-icon
+          @click="editItem(item)"
+          class="pa-2"
+          aria-label="Editar usuario"
+        >
+          fas fa-edit
+        </v-icon>
 
-        <v-icon @click="showItem(item.id)" class="pa-2"> fas fa-play </v-icon>
+        <v-icon
+          @click="showItem(item.id)"
+          class="pa-2"
+          aria-label="Ver posts del usuario"
+        >
+          fas fa-play
+        </v-icon>
       </template>
     </v-data-table>
   </v-container>
@@ -240,8 +254,9 @@ export default {
       axios.delete("https://jsonplaceholder.typicode.com/users/" + this.idDelete)
 
         .then((response) => {
-          // handle success
+          // handle success    
           console.log(response);
+          this.allUsers.splice(this.allUsers.findIndex(user => user.id == this.idDelete), 1);
           this.showAlert('success', 'eliminado');
         })
         .catch((error) => {
@@ -251,7 +266,6 @@ export default {
         })
         .then(() => {
           // always executed
-          this.idDelete = null;
           this.closeDelete();
         });
     },
@@ -280,7 +294,18 @@ export default {
         .then((response) => {
           // handle success
           console.log(response);
+
+          let index = this.allUsers.findIndex(user => user.id == this.editedItem.id);
+
+          this.allUsers[index].email = this.editedItem.email;
+          this.allUsers[index].phone = this.editedItem.phone;
+          this.allUsers[index].address.street = this.editedItem.address.street;
+          this.allUsers[index].address.suite = this.editedItem.address.suite;
+          this.allUsers[index].address.city = this.editedItem.address.city;
+          this.allUsers[index].address.zipcode = this.editedItem.address.zipcode;
+
           this.showAlert('success', 'editado');
+
         })
         .catch((error) => {
           // handle error
