@@ -254,18 +254,15 @@ export default {
       axios.delete("https://jsonplaceholder.typicode.com/users/" + this.idDelete)
 
         .then((response) => {
-          // handle success    
           console.log(response);
           this.allUsers.splice(this.allUsers.findIndex(user => user.id == this.idDelete), 1);
           this.showAlert('success', 'eliminado');
         })
         .catch((error) => {
-          // handle error
           console.log(error);
           this.showAlert('error', 'eliminado');
         })
         .then(() => {
-          // always executed
           this.closeDelete();
         });
     },
@@ -292,7 +289,6 @@ export default {
         }
       })
         .then((response) => {
-          // handle success
           console.log(response);
 
           let index = this.allUsers.findIndex(user => user.id == this.editedItem.id);
@@ -308,12 +304,10 @@ export default {
 
         })
         .catch((error) => {
-          // handle error
           console.log(error);
           this.showAlert('error', 'editado');
         })
         .then(() => {
-          // always executed
           this.close();
         });
     },

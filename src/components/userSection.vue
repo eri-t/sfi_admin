@@ -90,9 +90,9 @@ export default {
           let index = this.userPosts.findIndex(obj => obj.id == this.selected[i]);
           this.userPosts[index].published = true;
           this.$set(this.userPosts, index, this.userPosts[index]);
-          this.selected = [];
         }
       }
+      this.selected = [];
     },
 
     disable: function () {
@@ -105,9 +105,9 @@ export default {
           let index = this.userPosts.findIndex(obj => obj.id == this.selected[i]);
           this.userPosts[index].published = false;
           this.$set(this.userPosts, index, this.userPosts[index]);
-          this.selected = [];
         }
       }
+      this.selected = [];
     },
 
     goBack: function () {

@@ -3,6 +3,10 @@
     <nav-bar />
 
     <v-main>
+      <v-alert v-if="alert.show" type="error" class="ma-2">
+        {{ alert.text }}
+      </v-alert>
+
       <v-fade-transition mode="out-in">
         <div>
           <table-section
@@ -40,37 +44,34 @@ export default {
     allUsers: null,
     allPosts: null,
     id: '',
+    alert: { text: '', show: false, },
   }),
 
   mounted () {
     axios.get("https://jsonplaceholder.typicode.com/users").then((result) => {
 
-      // handle success - users
       this.allUsers = result.data;
       axios.get("https://jsonplaceholder.typicode.com/posts").then((result) => {
 
-        // handle success - posts
         this.allPosts = result.data;
 
-      }).catch(function (error) {
-        // handle error - posts
+      }).catch((error) => {
+        this.showAlert();
         console.log(error);
       })
-        .then(function () {
-          // always executed - posts
-
-        });
     })
-      .catch(function (error) {
-        // handle error - users
+      .catch((error) => {
+        this.showAlert();
         console.log(error);
       })
-      .then(function () {
-        // always executed - users
-
-      });
   },
 
+  methods: {
+    showAlert: function () {
+      this.alert.text = "Ha ocurrido un error inesperado. Por favor reintente más tarde.";
+      this.alert.show = true;
+    },
+  }
 };
 </script>
 
