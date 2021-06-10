@@ -19,91 +19,94 @@
             </v-card-title>
 
             <v-card-text>
-              <v-container>
-                <v-row>
-                  <v-col cols="12" sm="6">
-                    <v-text-field
-                      v-model="editedItem.username"
-                      label="Usuario"
-                      readonly
-                    ></v-text-field>
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col cols="12" sm="6">
-                    <v-text-field
-                      v-model="editedItem.email"
-                      label="Email"
-                      dense
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6">
-                    <v-text-field
-                      v-model="editedItem.phone"
-                      label="Teléfono"
-                      dense
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6">
-                    <v-text-field
-                      v-model="editedItem.address.street"
-                      label="Calle"
-                      dense
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6">
-                    <v-text-field
-                      v-model="editedItem.address.suite"
-                      label="Departamento"
-                      dense
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6">
-                    <v-text-field
-                      v-model="editedItem.address.city"
-                      label="Ciudad"
-                      dense
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6">
-                    <v-text-field
-                      v-model="editedItem.address.zipcode"
-                      label="Código postal"
-                      dense
-                    ></v-text-field>
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col cols="12" sm="6">
-                    <v-text-field
-                      v-model="editedItem.website"
-                      label="Website"
-                      readonly
-                      dense
-                    ></v-text-field>
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col cols="12">
-                    <v-text-field
-                      v-model="editedItem.company.name"
-                      label="Nombre empresa"
-                      readonly
-                      dense
-                    ></v-text-field>
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col cols="12">
-                    <v-textarea
-                      label="Descripción"
-                      rows="3"
-                      no-resize
-                      readonly
-                    ></v-textarea>
-                  </v-col>
-                </v-row>
-              </v-container>
+              <v-form v-model="valid" ref="form">
+                <v-container>
+                  <v-row>
+                    <v-col cols="12" sm="6">
+                      <v-text-field
+                        v-model="editedItem.username"
+                        label="Usuario"
+                        readonly
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col cols="12" sm="6">
+                      <v-text-field
+                        v-model="editedItem.email"
+                        label="Email"
+                        dense
+                        :rules="emailRules"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6">
+                      <v-text-field
+                        v-model="editedItem.phone"
+                        label="Teléfono"
+                        dense
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6">
+                      <v-text-field
+                        v-model="editedItem.address.street"
+                        label="Calle"
+                        dense
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6">
+                      <v-text-field
+                        v-model="editedItem.address.suite"
+                        label="Departamento"
+                        dense
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6">
+                      <v-text-field
+                        v-model="editedItem.address.city"
+                        label="Ciudad"
+                        dense
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6">
+                      <v-text-field
+                        v-model="editedItem.address.zipcode"
+                        label="Código postal"
+                        dense
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col cols="12" sm="6">
+                      <v-text-field
+                        v-model="editedItem.website"
+                        label="Website"
+                        readonly
+                        dense
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col cols="12">
+                      <v-text-field
+                        v-model="editedItem.company.name"
+                        label="Nombre empresa"
+                        readonly
+                        dense
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col cols="12">
+                      <v-textarea
+                        label="Descripción"
+                        rows="3"
+                        no-resize
+                        readonly
+                      ></v-textarea>
+                    </v-col>
+                  </v-row>
+                </v-container>
+              </v-form>
             </v-card-text>
 
             <v-card-actions>
@@ -146,6 +149,7 @@
           @click="deleteItem(item.id)"
           class="pa-2"
           aria-label="Eliminar usuario"
+          title="Eliminar usuario"
         >
           fas fa-trash
         </v-icon>
@@ -154,6 +158,7 @@
           @click="editItem(item)"
           class="pa-2"
           aria-label="Editar usuario"
+          title="Editar usuario"
         >
           fas fa-edit
         </v-icon>
@@ -162,6 +167,7 @@
           @click="showItem(item.id)"
           class="pa-2"
           aria-label="Ver posts del usuario"
+          title="Ver posts del usuario"
         >
           fas fa-play
         </v-icon>
@@ -202,6 +208,9 @@ export default {
       company: {},
     },
     alert: { type: '', text: '', show: false, },
+    valid: false,
+    emailRules: [
+      v => v.length > 0 || 'Debes ingresar un email'],
   }),
 
   watch: {
@@ -278,38 +287,40 @@ export default {
     },
 
     save () {
-      axios.put("https://jsonplaceholder.typicode.com/users/" + this.editedItem.id, {
-        email: this.editedItem.email,
-        phone: this.editedItem.phone,
-        address: {
-          street: this.editedItem.address.street,
-          suite: this.editedItem.address.suite,
-          city: this.editedItem.address.city,
-          zipcode: this.editedItem.address.zipcode,
-        }
-      })
-        .then((response) => {
-          console.log(response);
-
-          let index = this.allUsers.findIndex(user => user.id == this.editedItem.id);
-
-          this.allUsers[index].email = this.editedItem.email;
-          this.allUsers[index].phone = this.editedItem.phone;
-          this.allUsers[index].address.street = this.editedItem.address.street;
-          this.allUsers[index].address.suite = this.editedItem.address.suite;
-          this.allUsers[index].address.city = this.editedItem.address.city;
-          this.allUsers[index].address.zipcode = this.editedItem.address.zipcode;
-
-          this.showAlert('success', 'editado');
-
+      if (this.$refs.form.validate()) {
+        axios.put("https://jsonplaceholder.typicode.com/users/" + this.editedItem.id, {
+          email: this.editedItem.email,
+          phone: this.editedItem.phone,
+          address: {
+            street: this.editedItem.address.street,
+            suite: this.editedItem.address.suite,
+            city: this.editedItem.address.city,
+            zipcode: this.editedItem.address.zipcode,
+          }
         })
-        .catch((error) => {
-          console.log(error);
-          this.showAlert('error', 'editado');
-        })
-        .then(() => {
-          this.close();
-        });
+          .then((response) => {
+            console.log(response);
+
+            let index = this.allUsers.findIndex(user => user.id == this.editedItem.id);
+
+            this.allUsers[index].email = this.editedItem.email;
+            this.allUsers[index].phone = this.editedItem.phone;
+            this.allUsers[index].address.street = this.editedItem.address.street;
+            this.allUsers[index].address.suite = this.editedItem.address.suite;
+            this.allUsers[index].address.city = this.editedItem.address.city;
+            this.allUsers[index].address.zipcode = this.editedItem.address.zipcode;
+
+            this.showAlert('success', 'editado');
+
+          })
+          .catch((error) => {
+            console.log(error);
+            this.showAlert('error', 'editado');
+          })
+          .then(() => {
+            this.close();
+          });
+      }
     },
   }
 };

@@ -13,14 +13,14 @@
       </v-col>
       <v-col cols="12" md="4" class="d-flex align-center justify-end">
         <v-btn
-          @click="enable"
+          @click="togglePublishedState(true)"
           class="white--text"
           color="green lighten-1"
           rounded
           >Habilitar</v-btn
         >
         <v-btn
-          @click="disable"
+          @click="togglePublishedState(false)"
           class="white--text ms-2"
           color="grey darken-1"
           rounded
@@ -80,36 +80,20 @@ export default {
 
   methods: {
 
-    enable: function () {
+    togglePublishedState: function (newState) {
       for (let i = 0; i < this.selected.length; i++) {
 
         let selectedPost = this.userPosts.find(obj => {
           return obj.id == this.selected[i]
         });
-        if (!selectedPost.published) {
+        if (selectedPost.published != newState) {
           let index = this.userPosts.findIndex(obj => obj.id == this.selected[i]);
-          this.userPosts[index].published = true;
+          this.userPosts[index].published = newState;
           this.$set(this.userPosts, index, this.userPosts[index]);
         }
       }
       this.selected = [];
     },
-
-    disable: function () {
-      for (let i = 0; i < this.selected.length; i++) {
-
-        let selectedPost = this.userPosts.find(obj => {
-          return obj.id == this.selected[i]
-        });
-        if (selectedPost.published) {
-          let index = this.userPosts.findIndex(obj => obj.id == this.selected[i]);
-          this.userPosts[index].published = false;
-          this.$set(this.userPosts, index, this.userPosts[index]);
-        }
-      }
-      this.selected = [];
-    },
-
     goBack: function () {
       this.$emit('showItem', null);
     },
@@ -125,13 +109,6 @@ export default {
     populateUserPosts: function () {
       if (this.allPosts) {
         this.userPosts = this.allPosts.filter((post) => post.userId == this.userId);
-
-        // assign published state to some posts:
-        for (let i = 0; i < this.userPosts.length; i++) {
-          if (i % 2 == 0) {
-            this.userPosts[i].published = true;
-          }
-        }
       }
     }
   },
